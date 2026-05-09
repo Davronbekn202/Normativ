@@ -85,21 +85,28 @@ def add_student(request):
 def student_list(request):
 
     search = request.GET.get('search')
+    course_id = request.GET.get('course')
 
+    students = Student.objects.all()
+    courses = Course.objects.all()
+
+    # SEARCH
     if search:
-        students = Student.objects.filter(
+        students = students.filter(
             full_name__icontains=search
-        ) | Student.objects.filter(
+        ) | students.filter(
             phone__icontains=search
-        ) | Student.objects.filter(
+        ) | students.filter(
             email__icontains=search
         )
 
-    else:
-        students = Student.objects.all()
+    # FILTER BY COURSE
+    if course_id:
+        students = students.filter(course_id=course_id)
 
     context = {
-        'students': students
+        'students': students,
+        'courses': courses,
     }
 
     return render(request, 'student/student_list.html', context)
