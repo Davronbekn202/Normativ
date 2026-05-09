@@ -5,38 +5,19 @@
     <title>Title</title>
 </head>
 <body>
-
-<h1>Students</h1>
-
-<a href="{% url 'add-student' %}">
-    Add Student
-</a>
-<a href="{% url 'course-list' %}">
-    Courses
-</a>
+<h1>Students</h1><a href="{% url 'add-student' %}"> Add Student</a>
 <hr>
-
+<form method="GET"><input type="text" name="search" placeholder="Search student...">
+    <button type="submit"> Search</button>
+</form>
+<hr>
 {% for student in students %}
-
-    <div>
-
-        <h2>{{ student.full_name }}</h2>
-
-        <p>{{ student.phone }}</p>
-
-        <p>{{ student.email }}</p>
-
-        <p>Course: {{ student.course }}</p>
-
-        <p>
-            Active:
-            {{ student.is_active }}
-        </p>
-
-    </div>
-
-    <hr>
-
+<div><h2>{{ student.full_name }}</h2>
+    <p>{{ student.phone }}</p>
+    <p>{{ student.email }}</p>
+    <p>Course: {{ student.course }}</p></div>
+<hr>
 {% endfor %}
+
 </body>
 </html>
