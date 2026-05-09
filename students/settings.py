@@ -67,7 +67,7 @@ WSGI_APPLICATION = 'students.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "student",
+        "NAME": "student1",
         "USER": "postgres",
         "PASSWORD": "A0B1D9E2",
         "HOST": "127.0.0.1",
@@ -119,4 +119,4 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-
+AUTH_USER_MODEL = 'studentapp.CustomUser'

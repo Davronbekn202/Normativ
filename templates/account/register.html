@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="register-wrapper">
+
+    <form method="post" class="register-box">
+
+        {% csrf_token %}
+
+        <h1 class="register-title">
+            Create Account 🚀
+        </h1>
+
+        <p class="register-subtitle">
+            Register and start ordering
+        </p>
+
+        {% if form.errors %}
+            <div class="error-box">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+
+        <div class="input-group">
+            <label>Username</label>
+            {{ form.username }}
+        </div>
+
+        <div class="input-group">
+            <label>Email</label>
+            {{ form.email }}
+        </div>
+
+        <div class="input-group">
+            <label>Phone Number</label>
+            {{ form.phone_number }}
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            {{ form.password1 }}
+        </div>
+
+        <div class="input-group">
+            <label>Confirm Password</label>
+            {{ form.password2 }}
+        </div>
+
+        <button type="submit" class="register-btn">
+            REGISTER
+        </button>
+
+        <div class="bottom-text">
+            Already have an account?
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+        </div>
+
+    </form>
+
+</div>
+</body>
+</html>
