@@ -1,5 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -27,14 +29,14 @@ def add_student(request):
     return render(request, 'student/add_student.html', context)
 
 
-class CourseListView(ListView):
+class CourseListView(LoginRequiredMixin, ListView):
     model = Course
     template_name = 'course/course_list.html'
     context_object_name = 'courses'
 
 
+@login_required
 def student_list(request):
-
     search = request.GET.get('search')
     course_id = request.GET.get('course')
 
@@ -63,17 +65,14 @@ def student_list(request):
     return render(request, 'student/student_list.html', context)
 
 
-class CourseCreateView(CreateView):
+class CourseCreateView(LoginRequiredMixin, CreateView):
     model = Course
-
     fields = ['title', 'description', 'price']
-
     template_name = 'course/add_course.html'
-
     success_url = reverse_lazy('course-list')
 
 
-class CourseUpdateView(UpdateView):
+class CourseUpdateView(LoginRequiredMixin, UpdateView):
     model = Course
 
     fields = ['title', 'description', 'price']
@@ -83,7 +82,7 @@ class CourseUpdateView(UpdateView):
     success_url = reverse_lazy('course-list')
 
 
-class CourseDeleteView(DeleteView):
+class CourseDeleteView(LoginRequiredMixin, DeleteView):
     model = Course
 
     template_name = 'course/delete_course.html'
@@ -91,6 +90,7 @@ class CourseDeleteView(DeleteView):
     success_url = reverse_lazy('course-list')
 
 
+@login_required
 def delete_student(request, pk):
     # 🔥 PERMISSION CHECK
     if not request.user.groups.filter(name="Manager").exists():
@@ -106,6 +106,7 @@ def delete_student(request, pk):
     return render(request, 'student/delete_student.html', {'student': student})
 
 
+@login_required
 def update_student(request, pk):
     if not request.user.groups.filter(name="Manager").exists():
         return redirect('student-list')
@@ -121,6 +122,7 @@ def update_student(request, pk):
     return render(request, 'student/update_student.html', {'form': form})
 
 
+@login_required
 def add_students(request):
     if not request.user.groups.filter(name="Manager").exists():
         return redirect('student-list')
@@ -152,10 +154,7 @@ def register(request):
     })
 
 
-
-
 def user_login(request):
-
     error = None
 
     if request.method == 'POST':
