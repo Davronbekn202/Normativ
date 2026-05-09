@@ -18,64 +18,100 @@
     <!-- SEARCH -->
 
     <input
-        type="text"
-        name="search"
-        placeholder="Search student..."
-        value="{{ request.GET.search }}"
+            type="text"
+            name="search"
+            placeholder="Search student..."
+            value="{{ request.GET.search }}"
     >
 
     <!-- COURSE FILTER -->
 
     <select name="course">
 
-        <option value="">
-            All Courses
+    <option value="">
+        All Courses
+    </option>
+
+    {% for course in courses %}
+
+        <option
+            value="{{ course.id }}"
+
+            {% if request.GET.course == course.id|stringformat:"s" %}
+                selected
+            {% endif %}
+        >
+            {{ course.title }}
         </option>
 
-        {% for course in courses %}
+    {% endfor %}
 
-            <option
-                value="{{ course.id }}"
-
-                {% if request.GET.course == course.id|stringformat:"s" %}
-                    selected
-                {% endif %}
-            >
-                {{ course.title }}
-            </option>
-
-        {% endfor %}
-
-    </select>
+</select>
 
     <button type="submit">
-        Filter
+        Search
     </button>
 
 </form>
 
 <hr>
 
-{% for student in students %}
+<!-- STUDENTS -->
 
-    <div>
+{% for student in page_obj %}
 
-        <h2>{{ student.full_name }}</h2>
+<div>
 
-        <p>Phone: {{ student.phone }}</p>
+    <h2>{{ student.full_name }}</h2>
 
-        <p>Email: {{ student.email }}</p>
+    <p>Phone: {{ student.phone }}</p>
 
-        <p>Course: {{ student.course }}</p>
+    <p>Email: {{ student.email }}</p>
 
-    </div>
+    <p>Course: {{ student.course }}</p>
 
-    <hr>
+</div>
+
+<hr>
 
 {% empty %}
 
-    <h2>No students found</h2>
+<h2>No students found</h2>
 
 {% endfor %}
+
+<!-- PAGINATION -->
+
+<div>
+
+    <!-- PREVIOUS -->
+
+    {% if page_obj.has_previous %}
+
+    <a href="?page={{ page_obj.previous_page_number }}&search={{ request.GET.search }}&course={{ request.GET.course }}">
+        Previous
+    </a>
+
+    {% endif %}
+
+    <!-- PAGE NUMBER -->
+
+    <span>
+        Page {{ page_obj.number }}
+        of
+        {{ page_obj.paginator.num_pages }}
+    </span>
+
+    <!-- NEXT -->
+
+    {% if page_obj.has_next %}
+
+    <a href="?page={{ page_obj.next_page_number }}&search={{ request.GET.search }}&course={{ request.GET.course }}">
+        Next
+    </a>
+
+    {% endif %}
+
+</div>
 </body>
 </html>

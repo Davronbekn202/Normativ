@@ -82,6 +82,12 @@ def add_student(request):
 
     return render(request, 'student/add_student.html', context)
 
+from django.shortcuts import render
+from django.core.paginator import Paginator
+
+from .models import Student, Course
+
+
 def student_list(request):
 
     search = request.GET.get('search')
@@ -100,12 +106,19 @@ def student_list(request):
             email__icontains=search
         )
 
-    # FILTER BY COURSE
+    # COURSE FILTER
     if course_id:
         students = students.filter(course_id=course_id)
 
+    # PAGINATION
+    paginator = Paginator(students, 5)
+
+    page_number = request.GET.get('page')
+
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'students': students,
+        'page_obj': page_obj,
         'courses': courses,
     }
 
