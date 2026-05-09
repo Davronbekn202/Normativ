@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="login-wrapper">
+
+    <form method="post" class="login-box">
+
+        {% csrf_token %}
+
+        <h1 class="login-title">
+            Welcome Back 👋
+        </h1>
+
+        <p class="login-subtitle">
+            Login to your account
+        </p>
+
+        {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <div class="input-group">
+            <label>Username</label>
+
+            <input type="text"
+                   name="username"
+                   placeholder="Enter username"
+                   required>
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+
+            <input type="password"
+                   name="password"
+                   placeholder="Enter password"
+                   required>
+        </div>
+
+        <button type="submit" class="login-btn">
+            LOGIN
+        </button>
+
+        <div class="bottom-text">
+            Don't have an account?
+            <a href="{% url 'registration' %}">
+                Register
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

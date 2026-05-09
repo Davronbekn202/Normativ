@@ -1,5 +1,5 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-
 
 from django.db import models
 
@@ -30,3 +30,25 @@ class Student(models.Model):
 
     def __str__(self):
         return self.full_name
+
+
+class CustomUser(AbstractUser):
+    phone_number = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True
+    )
+
+    class Roles(models.TextChoices):
+        ADMIN = 'admin', 'Admin'
+        USER = 'user', 'User'
+        MANAGER = 'manager', 'Manager'
+
+    role = models.CharField(
+        max_length=20,
+        choices=Roles.choices,
+        default=Roles.USER
+    )
+
+    def __str__(self):
+        return self.username
