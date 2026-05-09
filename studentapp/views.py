@@ -81,3 +81,25 @@ def add_student(request):
     }
 
     return render(request, 'student/add_student.html', context)
+
+def student_list(request):
+
+    search = request.GET.get('search')
+
+    if search:
+        students = Student.objects.filter(
+            full_name__icontains=search
+        ) | Student.objects.filter(
+            phone__icontains=search
+        ) | Student.objects.filter(
+            email__icontains=search
+        )
+
+    else:
+        students = Student.objects.all()
+
+    context = {
+        'students': students
+    }
+
+    return render(request, 'student/student_list.html', context)
