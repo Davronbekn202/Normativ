@@ -15,30 +15,30 @@
 
 {% for course in courses %}
 
-    <div>
+<div>
 
-        <h2>{{ course.title }}</h2>
+    <h2>{{ course.title }}</h2>
 
-        <p>{{ course.description }}</p>
+    <p>{{ course.description }}</p>
 
-        <p>${{ course.price }}</p>
+    <p>${{ course.price }}</p>
 
-        <a href="{% url 'update-course' course.pk %}">
-            Edit
-        </a>
+    <a href="{% url 'update-course' course.pk %}">
+        Edit
+    </a>
 
-        <a href="{% url 'delete-course' course.pk %}">
-            Delete
-        </a>
+    <a href="{% url 'delete-course' course.pk %}">
+        Delete
+    </a>
 
-    </div>
+</div>
 
-    <hr>
+<hr>
 
 {% empty %}
 
-    <h2>No courses found</h2>
+<h2>No courses found</h2>
 
 {% endfor %}
+<a href="{% url 'add-student' %}">add students</a>
 </body>
-</html>
