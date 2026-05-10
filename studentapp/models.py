@@ -39,6 +39,9 @@ class CustomUser(AbstractUser):
         null=True
     )
 
+    email = models.EmailField()
+
+
     class Roles(models.TextChoices):
         ADMIN = 'admin', 'Admin'
         USER = 'user', 'User'
@@ -51,4 +54,4 @@ class CustomUser(AbstractUser):
     )
 
     def __str__(self):
-        return self.username
+        return self.name
