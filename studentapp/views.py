@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -35,7 +36,6 @@ class CourseListView(LoginRequiredMixin, ListView):
     context_object_name = 'courses'
 
 
-@login_required
 def student_list(request):
     search = request.GET.get('search')
     course_id = request.GET.get('course')
@@ -138,20 +138,25 @@ def add_students(request):
 
 def register(request):
     if request.method == 'POST':
-        form = RegisterForm(request.POST, request.FILES)
+        form = StudentForm(request.POST)
 
         if form.is_valid():
-            user = form.save()
+            student = form.save()
 
-            login(request, user)
-            return redirect('login')
+            # Email yuborish
+            send_mail(
+                "Ro‘yxatdan o‘tish",
+                "Siz kursga muvaffaqiyatli yozildingiz",
+                "admin@example.com",
+                [student.email],
+            )
+
+            return redirect('student-list')
 
     else:
-        form = RegisterForm()
+        form = StudentForm()
 
-    return render(request, 'account/register.html', {
-        'form': form,
-    })
+    return render(request, 'account/register.html', {'form': form})
 
 
 
