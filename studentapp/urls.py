@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from .views import (
     CourseListView,
@@ -25,4 +25,6 @@ urlpatterns = [
     path('register/', register, name='registration'),
     path('log-in/', user_login, name='login'),
     path('log-out/', user_logout, name='logout'),
+
+    path('captcha/', include('captcha.urls')),
 ]

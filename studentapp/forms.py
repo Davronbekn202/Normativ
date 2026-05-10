@@ -1,5 +1,7 @@
-from django import forms
 from .models import Course, Student, CustomUser
+from django import forms
+from .models import Student
+from captcha.fields import CaptchaField
 
 
 class CourseForm(forms.ModelForm):
@@ -8,9 +10,11 @@ class CourseForm(forms.ModelForm):
         fields = ['title', 'description', 'price']
 
 
-from django import forms
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
 
-from .models import Student
+    captcha = CaptchaField()
 
 
 class StudentForm(forms.ModelForm):
@@ -69,9 +73,9 @@ class StudentForm(forms.ModelForm):
 
         return email
 
-#register
-class RegisterForm(forms.ModelForm):
 
+# register
+class RegisterForm(forms.ModelForm):
     password1 = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(widget=forms.PasswordInput)
 
