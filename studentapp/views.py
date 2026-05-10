@@ -11,7 +11,7 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Course, Student
-from .forms import StudentForm, RegisterForm
+from .forms import StudentForm, RegisterForm, LoginForm
 
 
 def add_student(request):
@@ -154,29 +154,31 @@ def register(request):
     })
 
 
+
 def user_login(request):
-    error = None
+
+    form = LoginForm(request.POST or None)
 
     if request.method == 'POST':
 
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        if form.is_valid():
 
-        user = authenticate(
-            request,
-            username=username,
-            password=password
-        )
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
 
-        if user is not None:
-            login(request, user)
-            return redirect('student-list')
+            user = authenticate(request, username=username, password=password)
 
-        else:
-            error = "Username yoki password noto‘g‘ri"
+            if user is not None:
+                login(request, user)
+                return redirect('student-list')
+
+            else:
+                form.add_error(None, "Username yoki password noto‘g‘ri")
+
+        # captcha xato bo‘lsa ham shu yerga tushadi
 
     return render(request, 'account/login.html', {
-        'error': error
+        'form': form
     })
 
 

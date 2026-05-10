@@ -5,59 +5,28 @@
     <title>Title</title>
 </head>
 <body>
-<div class="login-wrapper">
+<form method="post">
 
-    <form method="post" class="login-box">
+    {% csrf_token %}
 
-        {% csrf_token %}
+    {{ form.username.label }}
+    {{ form.username }}
 
-        <h1 class="login-title">
-            Welcome Back 👋
-        </h1>
+    {{ form.password.label }}
+    {{ form.password }}
 
-        <p class="login-subtitle">
-            Login to your account
-        </p>
+    <div>
+        {{ form.captcha }}
+    </div>
 
-        {% if error %}
-            <div class="error-message">
-                {{ error }}
-            </div>
-        {% endif %}
-
-        <div class="input-group">
-            <label>Username</label>
-
-            <input type="text"
-                   name="username"
-                   placeholder="Enter username"
-                   required>
+    {% if form.errors %}
+        <div style="color:red;">
+            {{ form.errors }}
         </div>
+    {% endif %}
 
-        <div class="input-group">
-            <label>Password</label>
+    <button type="submit">Login</button>
 
-            <input type="password"
-                   name="password"
-                   placeholder="Enter password"
-                   required>
-        </div>
-
-        <button type="submit" class="login-btn">
-            LOGIN
-        </button>
-
-        <div class="bottom-text">
-            Don't have an account?
-            <a href="{% url 'registration' %}">
-                Register
-            </a>
-
-        </div>
-
-    </form>
-
-</div>
-
+</form>
 </body>
 </html>
