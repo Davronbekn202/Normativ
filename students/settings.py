@@ -62,23 +62,23 @@ WSGI_APPLICATION = 'students.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "student1",
-        "USER": "postgres",
-        "PASSWORD": "A0B1D9E2",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
-    }
-}
-
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "student1",
+#         "USER": "postgres",
+#         "PASSWORD": "A0B1D9E2",
+#         "HOST": "127.0.0.1",
+#         "PORT": "5432",
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation
@@ -119,13 +119,8 @@ LOGIN_URL = '/login/'
 AUTH_USER_MODEL = 'studentapp.CustomUser'
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
 EMAIL_HOST = "smtp.gmail.com"
-
 EMAIL_PORT = 587
-
 EMAIL_USE_TLS = True
-
 EMAIL_HOST_USER = 'davronbekn202@gmail.com'
-
 EMAIL_HOST_PASSWORD = "zsjm uwrc ccvb fzgt"

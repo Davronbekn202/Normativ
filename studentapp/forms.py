@@ -13,7 +13,6 @@ class CourseForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
-
     captcha = CaptchaField()
 
 
@@ -29,10 +28,7 @@ class StudentForm(forms.ModelForm):
             'is_active'
         ]
 
-    # FULL NAME VALIDATION
-
     def clean_full_name(self):
-
         full_name = self.cleaned_data.get('full_name')
 
         if len(full_name) < 3:
@@ -42,12 +38,8 @@ class StudentForm(forms.ModelForm):
 
         return full_name
 
-    # PHONE VALIDATION
-
     def clean_phone(self):
-
         phone = self.cleaned_data.get('phone')
-
         if not phone.startswith('+998'):
             raise forms.ValidationError(
                 "Telefon raqam +998 bilan boshlanishi kerak"
@@ -60,21 +52,15 @@ class StudentForm(forms.ModelForm):
 
         return phone
 
-    # EMAIL VALIDATION
-
     def clean_email(self):
-
         email = self.cleaned_data.get('email')
-
         if '@' not in email:
             raise forms.ValidationError(
                 "Email ichida @ bo‘lishi kerak"
             )
-
         return email
 
 
-# register
 class RegisterForm(forms.ModelForm):
     password1 = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(widget=forms.PasswordInput)
@@ -85,7 +71,6 @@ class RegisterForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-
         password1 = cleaned_data.get('password1')
         password2 = cleaned_data.get('password2')
 
@@ -96,10 +81,8 @@ class RegisterForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-
         password = self.cleaned_data.get('password1')
-
-        user.set_password(password)  # 🔥 MUHIM QISM
+        user.set_password(password)
 
         if commit:
             user.save()
